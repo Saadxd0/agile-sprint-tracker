@@ -1,8 +1,10 @@
 # Contributors 
  
 ## Team Members 
-- [Team Member 1 Full Name] - Backend Development 
-- [Team Member 2 Full Name] - Frontend Development 
+Saad khan
+Urooj Zaheer 
+Adan Fatima
+Umaima Javed
  
 ## Individual Contributions 
  
