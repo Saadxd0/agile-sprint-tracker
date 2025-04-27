@@ -1,0 +1,7 @@
+target/ 
+.idea/ 
+*.class 
+*.jar 
+data/*.json 
+data/sprint_data.json 
+.DS_Store 

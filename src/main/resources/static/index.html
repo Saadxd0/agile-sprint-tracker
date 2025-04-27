@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agile Sprint Tracker</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">
+                    <i class="fas fa-tasks me-2"></i>
+                    Agile Sprint Tracker
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#" id="nav-sprints">Sprints</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" id="nav-team">Team Members</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" id="nav-github">GitHub Integration</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <div class="content-container">
+            <!-- Loading spinner -->
+            <div id="loading-spinner" class="d-flex justify-content-center align-items-center h-100">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>
+
+            <!-- Sprints View -->
+            <div id="sprints-view" class="container mt-4 d-none">
+                <div class="row mb-4">
+                    <div class="col d-flex justify-content-between align-items-center">
+                        <h2>Sprints</h2>
+                        <button class="btn btn-primary" id="create-sprint-btn">
+                            <i class="fas fa-plus me-2"></i>Create Sprint
+                        </button>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <div id="sprints-container" class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+                            <!-- Sprint cards will be dynamically added here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Single Sprint View -->
+            <div id="sprint-details-view" class="container mt-4 d-none">
+                <div class="row mb-4">
+                    <div class="col">
+                        <button class="btn btn-outline-secondary mb-3" id="back-to-sprints-btn">
+                            <i class="fas fa-arrow-left me-2"></i>Back to Sprints
+                        </button>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h2 id="sprint-title">Sprint Details</h2>
+                            <div>
+                                <button class="btn btn-success me-2" id="add-story-btn">
+                                    <i class="fas fa-plus me-2"></i>Add User Story
+                                </button>
+                                <button class="btn btn-warning me-2" id="edit-sprint-btn">
+                                    <i class="fas fa-edit me-2"></i>Edit Sprint
+                                </button>
+                                <button class="btn btn-danger" id="delete-sprint-btn">
+                                    <i class="fas fa-trash me-2"></i>Delete Sprint
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row mb-4">
+                    <div class="col">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <p><strong>Start Date:</strong> <span id="sprint-start-date"></span></p>
+                                        <p><strong>End Date:</strong> <span id="sprint-end-date"></span></p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="progress">
+                                            <div id="sprint-progress-bar" class="progress-bar" role="progressbar" style="width: 0%"></div>
+                                        </div>
+                                        <p class="text-center mt-2"><span id="sprint-progress-text">0%</span> Complete</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col">
+                        <div class="story-board">
+                            <div class="row">
+                                <div class="col">
+                                    <h3>User Stories</h3>
+                                </div>
+                            </div>
+                            <div id="user-stories-container">
+                                <!-- User stories will be dynamically added here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- User Story Details View -->
+            <div id="story-details-view" class="container mt-4 d-none">
+                <div class="row mb-4">
+                    <div class="col">
+                        <button class="btn btn-outline-secondary mb-3" id="back-to-sprint-btn">
+                            <i class="fas fa-arrow-left me-2"></i>Back to Sprint
+                        </button>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h2 id="story-title">User Story Details</h2>
+                            <div>
+                                <button class="btn btn-success me-2" id="add-task-btn">
+                                    <i class="fas fa-plus me-2"></i>Add Task
+                                </button>
+                                <button class="btn btn-warning me-2" id="edit-story-btn">
+                                    <i class="fas fa-edit me-2"></i>Edit Story
+                                </button>
+                                <button class="btn btn-danger" id="delete-story-btn">
+                                    <i class="fas fa-trash me-2"></i>Delete Story
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row mb-4">
+                    <div class="col">
+                        <div class="card">
+                            <div class="card-body">
+                                <p id="story-description">Description goes here...</p>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <p><strong>Priority:</strong> <span id="story-priority"></span></p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p><strong>Story Points:</strong> <span id="story-points"></span></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col">
+                        <h3>Tasks</h3>
+                        <div class="task-board">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="card">
+                                        <div class="card-header bg-secondary text-white">
+                                            To Do
+                                        </div>
+                                        <div class="card-body">
+                                            <div id="tasks-todo" class="task-column tasks-container">
+                                                <!-- To Do tasks will be added here -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="card">
+                                        <div class="card-header bg-primary text-white">
+                                            In Progress
+                                        </div>
+                                        <div class="card-body">
+                                            <div id="tasks-inprogress" class="task-column tasks-container">
+                                                <!-- In Progress tasks will be added here -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="card">
+                                        <div class="card-header bg-success text-white">
+                                            Done
+                                        </div>
+                                        <div class="card-body">
+                                            <div id="tasks-done" class="task-column tasks-container">
+                                                <!-- Done tasks will be added here -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Team Members View -->
+            <div id="team-members-view" class="container mt-4 d-none">
+                <div class="row mb-4">
+                    <div class="col d-flex justify-content-between align-items-center">
+                        <h2>Team Members</h2>
+                        <button class="btn btn-primary" id="add-team-member-btn">
+                            <i class="fas fa-user-plus me-2"></i>Add Team Member
+                        </button>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <div id="team-members-container" class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+                            <!-- Team member cards will be dynamically added here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- GitHub Integration View -->
+            <div id="github-view" class="container mt-4 d-none">
+                <div class="row mb-4">
+                    <div class="col">
+                        <h2>GitHub Integration</h2>
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Import Issues from GitHub Repository</h5>
+                                <form id="github-import-form">
+                                    <div class="row">
+                                        <div class="col-md-5 mb-3">
+                                            <label for="repo-owner" class="form-label">Repository Owner</label>
+                                            <input type="text" class="form-control" id="repo-owner" required>
+                                        </div>
+                                        <div class="col-md-5 mb-3">
+                                            <label for="repo-name" class="form-label">Repository Name</label>
+                                            <input type="text" class="form-control" id="repo-name" required>
+                                        </div>
+                                        <div class="col-md-2 mb-3 d-flex align-items-end">
+                                            <button type="submit" class="btn btn-primary w-100">
+                                                <i class="fab fa-github me-2"></i>Fetch Issues
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5>GitHub Issues</h5>
+                            </div>
+                            <div class="card-body">
+                                <div id="github-issues-container">
+                                    <p class="text-center">Fetch issues from a GitHub repository to see them here.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modals -->
+    <!-- Create/Edit Sprint Modal -->
+    <div class="modal fade" id="sprint-modal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="sprint-modal-title">Create Sprint</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="sprint-form">
+                        <div class="mb-3">
+                            <label for="sprint-name" class="form-label">Sprint Name</label>
+                            <input type="text" class="form-control" id="sprint-name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="sprint-start" class="form-label">Start Date</label>
+                            <input type="date" class="form-control" id="sprint-start" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="sprint-end" class="form-label">End Date</label>
+                            <input type="date" class="form-control" id="sprint-end" required>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="save-sprint-btn">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Create/Edit User Story Modal -->
+    <div class="modal fade" id="story-modal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="story-modal-title">Create User Story</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="story-form">
+                        <div class="mb-3">
+                            <label for="story-title-input" class="form-label">Title</label>
+                            <input type="text" class="form-control" id="story-title-input" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="story-description-input" class="form-label">Description</label>
+                            <textarea class="form-control" id="story-description-input" rows="3" required></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="story-priority-input" class="form-label">Priority</label>
+                            <select class="form-select" id="story-priority-input" required>
+                                <option value="HIGH">High</option>
+                                <option value="MEDIUM">Medium</option>
+                                <option value="LOW">Low</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="story-points-input" class="form-label">Story Points</label>
+                            <input type="number" class="form-control" id="story-points-input" min="1" required>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="save-story-btn">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Create/Edit Task Modal -->
+    <div class="modal fade" id="task-modal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="task-modal-title">Create Task</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="task-form">
+                        <div class="mb-3">
+                            <label for="task-title-input" class="form-label">Title</label>
+                            <input type="text" class="form-control" id="task-title-input" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="task-assigned-input" class="form-label">Assigned To</label>
+                            <select class="form-select" id="task-assigned-input">
+                                <option value="">Unassigned</option>
+                                <!-- Team members will be added here dynamically -->
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="task-status-input" class="form-label">Status</label>
+                            <select class="form-select" id="task-status-input" required>
+                                <option value="TODO">To Do</option>
+                                <option value="IN_PROGRESS">In Progress</option>
+                                <option value="DONE">Done</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="save-task-btn">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Create/Edit Team Member Modal -->
+    <div class="modal fade" id="team-member-modal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="team-member-modal-title">Add Team Member</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="team-member-form">
+                        <div class="mb-3">
+                            <label for="team-member-name" class="form-label">Name</label>
+                            <input type="text" class="form-control" id="team-member-name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="team-member-email" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="team-member-email" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="team-member-github" class="form-label">GitHub Username</label>
+                            <input type="text" class="form-control" id="team-member-github">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="save-team-member-btn">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Import GitHub Issues Modal -->
+    <div class="modal fade" id="import-issues-modal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Import GitHub Issues</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Import Issues To:</label>
+                        <form id="import-issues-form">
+                            <div class="mb-3">
+                                <label for="import-sprint" class="form-label">Sprint</label>
+                                <select class="form-select" id="import-sprint" required>
+                                    <!-- Sprints will be added here dynamically -->
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="import-story" class="form-label">User Story</label>
+                                <select class="form-select" id="import-story" required>
+                                    <!-- User stories will be added here dynamically -->
+                                </select>
+                            </div>
+                        </form>
+                    </div>
+                    <div id="issues-to-import">
+                        <!-- Issues will be displayed here -->
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="confirm-import-btn">Import Selected Issues</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div class="modal fade" id="confirm-modal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirm-modal-title">Confirm Action</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p id="confirm-modal-text">Are you sure you want to perform this action?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-danger" id="confirm-action-btn">Confirm</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Alert Modal -->
+    <div class="modal fade" id="alert-modal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="alert-modal-title">Alert</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p id="alert-modal-text"></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/sprints.js"></script>
+    <script src="js/stories.js"></script>
+    <script src="js/tasks.js"></script>
+    <script src="js/team.js"></script>
+    <script src="js/github.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html> 

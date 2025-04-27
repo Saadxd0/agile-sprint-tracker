@@ -1,0 +1,267 @@
+/* Global Styles */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f9fa;
+    min-height: 100vh;
+}
+
+.app-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.content-container {
+    flex: 1;
+    padding: 20px 0;
+    display: flex;
+    flex-direction: column;
+}
+
+#loading-spinner {
+    min-height: 200px;
+}
+
+/* Card Styles */
+.card {
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s, box-shadow 0.2s;
+    margin-bottom: 20px;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+    font-weight: 600;
+    border-top-left-radius: 8px !important;
+    border-top-right-radius: 8px !important;
+}
+
+/* Sprint Card */
+.sprint-card {
+    height: 100%;
+    cursor: pointer;
+}
+
+.sprint-card .card-body {
+    display: flex;
+    flex-direction: column;
+}
+
+.sprint-card .card-text {
+    margin-bottom: 1rem;
+    flex-grow: 1;
+}
+
+.sprint-dates {
+    font-size: 0.9rem;
+    color: #6c757d;
+    margin-bottom: 1rem;
+}
+
+/* User Story List */
+.story-board {
+    margin-top: 2rem;
+}
+
+.story-card {
+    margin-bottom: 1rem;
+    cursor: pointer;
+}
+
+.story-card .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 1.25rem;
+}
+
+.story-card .story-points {
+    background-color: #f8f9fa;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+.story-priority {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.priority-high {
+    background-color: #dc3545;
+    color: white;
+}
+
+.priority-medium {
+    background-color: #ffc107;
+    color: #212529;
+}
+
+.priority-low {
+    background-color: #28a745;
+    color: white;
+}
+
+/* Task Board */
+.task-board {
+    margin-top: 1rem;
+}
+
+.task-column {
+    min-height: 100px;
+    padding: 0.5rem;
+}
+
+.tasks-container {
+    min-height: 200px;
+    transition: background-color 0.3s;
+}
+
+.tasks-container.drag-over {
+    background-color: rgba(0, 123, 255, 0.1);
+    border-radius: 8px;
+}
+
+.task-card {
+    margin-bottom: 0.5rem;
+    cursor: grab;
+    background-color: #ffffff;
+    border-left: 4px solid #6c757d;
+    transition: transform 0.2s, box-shadow 0.2s, opacity 0.3s;
+}
+
+.task-card.dragging {
+    opacity: 0.7;
+    transform: scale(1.05);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.task-card[data-status="TODO"], .task-card[data-status="TO_DO"] {
+    border-left-color: #6c757d;
+}
+
+.task-card[data-status="IN_PROGRESS"] {
+    border-left-color: #007bff;
+}
+
+.task-card[data-status="DONE"] {
+    border-left-color: #28a745;
+}
+
+.task-card .card-body {
+    padding: 0.75rem;
+}
+
+.task-card .task-assignee {
+    font-size: 0.8rem;
+    color: #6c757d;
+    display: flex;
+    align-items: center;
+    margin-top: 0.5rem;
+}
+
+.task-card .fas.fa-user {
+    margin-right: 0.5rem;
+}
+
+/* Team Member Card */
+.team-member-card {
+    height: 100%;
+}
+
+.team-member-card .card-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.team-member-card .github-username {
+    font-size: 0.9rem;
+    color: #6c757d;
+}
+
+.team-member-card .team-member-actions {
+    margin-top: 1rem;
+    display: flex;
+    justify-content: flex-end;
+}
+
+/* GitHub Issues */
+.github-issue {
+    padding: 1rem;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    background-color: white;
+}
+
+.github-issue-title {
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.github-issue-number {
+    font-size: 0.9rem;
+    color: #6c757d;
+}
+
+.github-issue-labels {
+    margin-top: 0.5rem;
+}
+
+.github-issue-label {
+    display: inline-block;
+    margin-right: 0.5rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .task-board .row {
+        flex-direction: column;
+    }
+    
+    .task-board .col-md-4 {
+        margin-bottom: 1rem;
+    }
+}
+
+/* Animation */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.fade-in {
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+/* Draggable */
+.draggable {
+    cursor: grab;
+}
+
+.draggable:active {
+    cursor: grabbing;
+}
+
+.drag-over {
+    border: 2px dashed #007bff;
+    padding: 10px;
+    background-color: rgba(0, 123, 255, 0.05);
+} 
