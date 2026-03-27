@@ -3,10 +3,8 @@
 A complete Sprint Tracking application for managing sprints, user stories, and tasks. 
  
 ## Team Members 
-- Saad khan - Submission Lead 
-- Urooj Zaheer - Backend Development 
-- Adan fatima - Frontend Development 
-- Umaima Javed -Testing & Documentation
+- Saad khan - Submission Lead & Backend Development
+- Urooj Zaheer - Frontend Development 
 
  
 ## Features 
